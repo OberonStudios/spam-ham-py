@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container">
+  <div class="columns">
+    <div class="column is-12">
+      <div class="box content">
+      <article class="post">
+        <h4>{{ post.title }}</h4>
+        <div class="media">
+          <div class="media-left">
+            <p class="image is-32x32">
+              <img src="http://bulma.io/images/placeholders/128x128.png">
+            </p>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                replied on {{ post.published_date }} &nbsp;
+                {% if post.spam_score < "0.3" %}
+                <span class="tag is-primary is-medium ">Ham</span>
+                {% else %}
+                <span class="tag is-light is-danger is-medium ">Spam</span>
+                {% endif %}
+              </p>
+              <p style="color:#000000;">
+                {{ post.text }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="post">
+        <div class="media-content">
+          <div class="comments">
+          {% for comment in post.comments.all %}
+            <div class="comment">
+              <h4>{{ comment.author }}</h4>
+              <p>{{ comment.text }}</p>  
+            </div>
+            {% empty %}
+            <p>No comments...</p>                        
+          {% endfor %}
+          </div>
+          {% if user.is_authenticated %}
+          <a class="button is-info" href="{% url 'base_comment' pk=post.pk %}">Comment</a>
+          {% endif %}
+        </div>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container">
+  <div class="columns">
+    <div class="column is-3">
+      {% if user.is_authenticated %}
+      <a class="button is-primary is-block is-alt is-large" href="post/add">New Post</a>
+      {% endif %}
+      <aside class="menu">
+        <p class="menu-label">
+          Tags
+        </p>
+        <ul class="menu-list">
+          <li><span class="tag is-primary is-medium ">Ham</span></li>
+          <!-- <li><span class="tag is-link is-medium ">Customers</span></li> -->
+          <li><span class="tag is-light is-danger is-medium ">Spam</span></li>
+          <!-- <li><span class="tag is-dark is-medium ">Payments</span></li> -->
+          <!-- <li><span class="tag is-success is-medium ">Transfers</span></li> -->
+          <!-- <li><span class="tag is-warning is-medium ">Balance</span></li> -->
+          <!-- <li><span class="tag is-medium ">Question</span></li> -->
+        </ul>
+      </aside>
+    </div>
+    <div class="column is-9">
+      <div class="box content">
+      {% for post in posts %}
+      <article class="post">
+        <h4>{{ post.title }}</h4>
+        <div class="media">
+          <div class="media-left">
+            <p class="image is-32x32">
+              <img src="http://bulma.io/images/placeholders/128x128.png">
+            </p>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                replied on {{ post.published_date }} &nbsp;
+                {% if post.spam_score < "0.3" %}
+                <span class="tag is-primary is-medium ">Ham</span>
+                {% else %}
+                <span class="tag is-light is-danger is-medium ">Spam</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          <div class="media-right">
+            <span class="has-text-grey-light"><i class="fa fa-comments"></i> <a href="{% url 'base_post' pk=post.pk %}">{{ post.comments.count }}</a></span>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
