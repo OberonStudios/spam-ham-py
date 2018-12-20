@@ -36,10 +36,10 @@
             <div class="content">
               <p>
                 replied on {{ post.published_date }} &nbsp;
-                {% if post.spam_score < "0.3" %}
-                <span class="tag is-primary is-medium ">Ham</span>
+                {% if post.spam_class == "Ham" %}
+                <span class="tag is-primary is-medium ">{{post.spam_class}}</span>
                 {% else %}
-                <span class="tag is-light is-danger is-medium ">Spam</span>
+                <span class="tag is-light is-danger is-medium ">{{post.spam_class}}</span>
                 {% endif %}
               </p>
             </div>

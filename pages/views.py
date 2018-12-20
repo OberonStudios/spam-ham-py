@@ -42,7 +42,9 @@ class base_dashboard(TemplateView):
         posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
         context['key'] = settings.STRIPE_PUBLISHABLE_KEY
         context['posts'] = posts
-        context['statistics'] = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date').count()
+        context['spam_count'] = Post.objects.filter(spam_class="Spam").count()
+        context['ham_count'] = Post.objects.filter(spam_class="Ham").count()
+        context['detect_rate'] = str(context['spam_count']/posts.count())[:3]
         return context
 
 def stripe_paid(request, pk):
@@ -69,6 +71,11 @@ def base_post_add(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.spam_score = str(antispam.score(post.text))
+            if(post.spam_score>str(0.40)):
+                post.spam_class = "Spam"
+            else:
+                post.spam_class = "Ham"
+
             post.save()
             return redirect('base_post', pk=post.pk)
     else:

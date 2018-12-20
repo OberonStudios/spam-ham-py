@@ -59,9 +59,11 @@
                               Hello, guest
                               {% endif %}
                             </h1>
+                            {% if not user.is_authenticated %}
                             <h2 class="subtitle">
                               Please login with your Google email to get started!
                             </h2>
+                            {% endif %}
                         </div>
                     </div>
                 </section>
@@ -70,25 +72,25 @@
                         <div class="tile is-parent">
                             <article class="tile is-child box">
                                 <p class="title">{{ posts.count }}</p>
-                                <p class="subtitle">Users</p>
+                                <p class="subtitle">Posts</p>
                             </article>
                         </div>
                         <div class="tile is-parent">
                             <article class="tile is-child box">
-                                <p class="title">{{ statistics }}</p>
+                                <p class="title">{{ spam_count }}</p>
                                 <p class="subtitle">Spam</p>
                             </article>
                         </div>
                         <div class="tile is-parent">
                             <article class="tile is-child box">
-                                <p class="title">11</p>
+                                <p class="title">{{ ham_count }}</p>
                                 <p class="subtitle">Ham</p>
                             </article>
                         </div>
                         <div class="tile is-parent">
                             <article class="tile is-child box">
-                                <p class="title">{{ posts.count }}</p>
-                                <p class="subtitle">Total</p>
+                                <p class="title">{{ detect_rate }}%</p>
+                                <p class="subtitle">Detection rate</p>
                             </article>
                         </div>
                     </div>
@@ -126,7 +128,7 @@
                                             <tr>
                                                 <td width="5%"><i class="fa fa-bell-o"></i></td>
                                                 <td>New post added on {{post.published_date}}</td>
-                                                <td><a class="button is-small is-primary" href="#">Action</a></td>
+                                                <td><a class="button is-small is-primary" href="#">{{post.spam_class}}</a></td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -134,7 +136,7 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <a href="#" class="card-footer-item">View All</a>
+                                <a href="/" class="card-footer-item">View All</a>
                             </footer>
                         </div>
                     </div>

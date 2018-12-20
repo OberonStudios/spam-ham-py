@@ -8,6 +8,7 @@ class Post(models.Model):
     text = models.TextField()
 
     spam_score = models.CharField(max_length=200, default=0)
+    spam_class = models.CharField(max_length=200, default="n/a")
 
     price = models.DecimalField(max_digits=10, decimal_places=0, default=0)
     created_date = models.DateTimeField(
